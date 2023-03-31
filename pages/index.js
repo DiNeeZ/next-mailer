@@ -53,7 +53,7 @@ const Home = () => {
       setValues(initValues);
       setError(initError);
       toast({
-        title: "Your message has been successfully sent",
+        title: "message has been successfully sent",
         status: "success",
         duration: 2000,
         position: "top",
