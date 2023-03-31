@@ -8,6 +8,7 @@ import {
   Heading,
   Input,
   Textarea,
+  Text,
 } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { useState } from "react";
@@ -15,11 +16,13 @@ import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 const initValues = { name: "", email: "", subject: "", message: "" };
+const initError = { isError: false, message: "" };
 
 const Home = () => {
   const [values, setValues] = useState(initValues);
   const [touched, setTouched] = useState({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(initError);
 
   const { name, email, subject, message } = values;
 
@@ -46,8 +49,9 @@ const Home = () => {
       await sendContactForm(values);
       setTouched({});
       setValues(initValues);
+      setError(initError);
     } catch (error) {
-      console.log(error);
+      setError({ isError: true, message: error.message });
     } finally {
       setLoading(false);
     }
@@ -56,7 +60,11 @@ const Home = () => {
   return (
     <Container maxW={450} mt={12} className={inter.className}>
       <Heading mb={50}>Contacts</Heading>
-
+      {error.isError && (
+        <Text color="red.300" my={4} fontSize="xl">
+          {error.message}
+        </Text>
+      )}
       <form
         style={{
           display: "flex",
