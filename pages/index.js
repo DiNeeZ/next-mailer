@@ -9,6 +9,7 @@ import {
   Input,
   Textarea,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { useState } from "react";
@@ -19,6 +20,7 @@ const initValues = { name: "", email: "", subject: "", message: "" };
 const initError = { isError: false, message: "" };
 
 const Home = () => {
+  const toast = useToast();
   const [values, setValues] = useState(initValues);
   const [touched, setTouched] = useState({});
   const [loading, setLoading] = useState(false);
@@ -50,6 +52,12 @@ const Home = () => {
       setTouched({});
       setValues(initValues);
       setError(initError);
+      toast({
+        title: "Your message has been successfully sent",
+        status: "success",
+        duration: 2000,
+        position: "top",
+      });
     } catch (error) {
       setError({ isError: true, message: error.message });
     } finally {
